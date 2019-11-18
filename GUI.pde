@@ -9,8 +9,8 @@ String[] labels = {"Meat Consumption", "Dairy Consumption", "Plastic Use", "Disp
 PShape planetSphere;
 PImage planetTexture;
 
-float yRotation = 23;
-float xRotation = 0;
+float yRotation = 1.0;
+float zRotation = 23;
 
 void setup() {
   fullScreen(P3D);
@@ -63,16 +63,10 @@ void drawLabels() {
 void rotatePlanet() {
   pushMatrix();
     translate(width/2, height); 
-      rotateY(yRotation);
-      rotateX(xRotation); 
-      shape(planetSphere);
+      rotateZ(zRotation);
+        rotateY(yRotation); 
+          shape(planetSphere);
   popMatrix();
   
-  yRotation += 0.01;
-  //xRotation -= 0.01;
-}
-
-void keyPressed() {
-  xRotation++;
-  println(xRotation);
+  yRotation -= 0.01;
 }
