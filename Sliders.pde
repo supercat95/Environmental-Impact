@@ -1,10 +1,15 @@
 class Slider {
   float sliderLength;
   float sliderHeight;
-  
   float xPosition;
   float yPosition;
   float zPosition;
+  
+  float pieceLength;
+  float pieceHeight;
+  float yPos;
+   
+  boolean isDragged;
   
   Slider() {
     sliderLength = width / 45;
@@ -20,6 +25,12 @@ class Slider {
     xPosition = xPos;
     yPosition = height / 5;
     zPosition = 0;
+    
+    pieceLength = 5 * sliderLength / 4;
+    pieceHeight = sliderHeight / 8;
+    yPos = yPosition;
+    
+    isDragged = false;
   }
   
   // ==================================================
@@ -29,6 +40,16 @@ class Slider {
       translate(xPosition, yPosition, zPosition);
       fill(255,255,255);
       box(sliderLength, sliderHeight, 15);
+      sliderPiece(yPosition); 
+    popMatrix();
+  }
+  
+  void sliderPiece(float y) {
+    yPos = y;
+    pushMatrix();
+      translate(xPosition, yPos, zPosition);
+      fill(#FFF700); // yellow
+      box(pieceLength, pieceHeight, 22);
     popMatrix();
   }
   

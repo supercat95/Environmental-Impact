@@ -23,6 +23,15 @@ void draw() {
   rotatePlanet();
   drawSliders();
   drawLabels();
+  
+  fill(255,255,255);
+  translate(0,height-40,0);
+  rect(0,0, 40,40);
+  fill(0,0,0);
+  textSize(15);
+  text(pmouseX, 15, 10);
+  text(pmouseY, 15, 30);
+  
 }
 
 // ==================================================
@@ -47,8 +56,12 @@ void drawSliders() {
     translate(width/12,0,0);
   for (int i = 0; i < sliders.length; i++) {
     sliders[i].createSlider();
+    sliders[i].sliderPiece(sliders[i].yPosition);
   }
   popMatrix();
+}
+
+void drawSliderPieces() {
 }
 
 void drawLabels() {
@@ -63,10 +76,23 @@ void drawLabels() {
 void rotatePlanet() {
   pushMatrix();
     translate(width/2, height); 
-      rotateZ(zRotation);
-        rotateY(yRotation); 
+      //rotateZ(zRotation);
+        //rotateY(yRotation); 
           shape(planetSphere);
   popMatrix();
   
   yRotation -= 0.01;
+}
+
+void mouseDragged() { 
+  println(sliders[1].xPosition * 2);
+  for (int i = 0; i < sliders.length; i++) {
+    
+    if (pmouseX >= (sliders[i].xPosition * 2) - sliders[i].sliderLength && pmouseX <= (sliders[i].xPosition * 2) + sliders[i].sliderLength)
+      //&& pmouseY <= sliders[i].yPosition + sliders[i].pieceHeight && pmouseY >= sliders[i].yPosition)
+      {
+        sliders[i].sliderPiece(pmouseY);
+        println("slider " + i + " is clicked at " + pmouseX);
+      } 
+  }
 }
