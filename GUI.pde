@@ -39,7 +39,7 @@ void drawSliders() {
 void drawLabels() {
   for (int i = 0; i < sliders.length; i++) {
       fill(255,255,255);
-      textSize(15);
+      textSize(17);
       textAlign(CENTER);
       text(labels[i], sliders[i].xPosition + width/12, sliders[i].sliderHeight + sliders[i].yPosition);
   }
