@@ -6,9 +6,13 @@ float yIncrement;
 
 String[] labels = {"Meat Consumption", "Dairy Consumption", "Plastic Use", "Disposables Use", "Recycling and Upcycling", "Proper Recycling"};
 
+PShape planetSphere;
+PImage planetTexture;
+
 void setup() {
   fullScreen(P3D);
   initializeOverloadedSliders();
+  initializePlanet();
 }
 
 void draw() {
@@ -27,6 +31,14 @@ void initializeOverloadedSliders() {
   }
 }
 
+void initializePlanet() {
+  noStroke();
+  planetSphere = createShape(SPHERE, height/2);
+  planetTexture = loadImage("planetTexture.png");
+  planetSphere.setTexture(planetTexture);
+}
+
+// ---------------------------------------------------
 void drawSliders() {
   pushMatrix();
     translate(width/12,0,0);
@@ -50,6 +62,6 @@ void drawEarth() {
   noStroke();
   pushMatrix();
     translate(width/2, height);
-    sphere(height/2);
+      shape(planetSphere);
   popMatrix();
 }
