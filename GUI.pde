@@ -92,11 +92,10 @@ void rotatePlanet() {
 void mouseDragged() { 
   for (int i = 0; i < sliders.length; i++) {
     
-    if (pmouseX >= (sliders[i].xPosition + width/12) - sliders[i].sliderLength && pmouseX <= (sliders[i].xPosition + width/12) + sliders[i].sliderLength)
-      //&& pmouseY <= sliders[i].yPosition + sliders[i].pieceHeight && pmouseY >= sliders[i].yPosition)
+    if (pmouseX >= (sliders[i].xPosition + width/12) - sliders[i].sliderLength && pmouseX <= (sliders[i].xPosition + width/12) + sliders[i].sliderLength
+      && pmouseY <= sliders[i].yPosition + sliders[i].pieceHeight && pmouseY >= sliders[i].yPosition - sliders[i].pieceHeight)
       {
         sliders[i].sliderPiece(pmouseY);
-        println("slider " + i + " is clicked at " + pmouseX);
       } 
   }
 }
