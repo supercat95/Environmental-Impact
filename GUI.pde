@@ -58,7 +58,6 @@ void drawSliders() {
     translate(width/12,0,0);
   for (int i = 0; i < sliders.length; i++) {
     sliders[i].createSlider();
-    sliders[i].sliderPiece(sliders[i].yPosition);
   }
   popMatrix();
 }

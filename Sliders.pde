@@ -8,9 +8,6 @@ class Slider {
   float pieceLength;
   float pieceHeight;
   float yPos;
-   
-  boolean isHovering;
-  boolean isDragged;
   
   Slider() {
     sliderLength = width / 45;
@@ -30,9 +27,6 @@ class Slider {
     pieceLength = 5 * sliderLength / 4;
     pieceHeight = sliderHeight / 8;
     yPos = yPosition;
-    
-    isHovering = false;
-    isDragged = false;
   }
   
   // ==================================================
@@ -45,24 +39,7 @@ class Slider {
     popMatrix();
   }
   
-  void checkForSliding() {
-    if (checkIfHovering()) {
-      if (mousePressed) {
-        if (checkIfHovering()) {
-          yPos = pmouseY;
-          pushMatrix();
-            //fill(#060115);
-            //rect(0,0,width,height/3);
-            translate(width/12,0,0);
-              //createSlider();
-              sliderPiece(yPos);
-          popMatrix();
-        }
-      }
-    }
-  }
-  
-  boolean checkIfHovering() {
+   boolean checkIfHovering() {
     if (pmouseX >= (this.xPosition + width/12) - sliderLength && pmouseX <= (this.xPosition + width/12) + sliderLength
       && pmouseY <= this.yPosition + (sliderHeight/2) && pmouseY >= this.yPosition - (sliderHeight/2)) {
       return true;
@@ -70,11 +47,18 @@ class Slider {
       return false;
     }
   }
+  
+  void checkForSliding() {
+    if (checkIfHovering() && mousePressed) {
+      yPos = pmouseY;  
+    } 
+      sliderPiece(yPos);
+  }
  
   void sliderPiece(float y) {
     yPos = y;
     pushMatrix();
-      translate(xPosition, yPos, zPosition);
+      translate(xPosition + width/12, yPos, zPosition);
       fill(#FFF700); // yellow
       box(pieceLength, pieceHeight, 22);
     popMatrix();
