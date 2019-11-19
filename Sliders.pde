@@ -51,10 +51,10 @@ class Slider {
         if (checkIfHovering()) {
           yPos = pmouseY;
           pushMatrix();
-            fill(#060115);
-            rect(0,0,width,height/3);
+            //fill(#060115);
+            //rect(0,0,width,height/3);
             translate(width/12,0,0);
-              createSlider();
+              //createSlider();
               sliderPiece(yPos);
           popMatrix();
         }
@@ -63,8 +63,8 @@ class Slider {
   }
   
   boolean checkIfHovering() {
-    if (pmouseX >= (this.xPosition + width/12) - this.sliderLength && pmouseX <= (this.xPosition + width/12) + this.sliderLength
-      && pmouseY <= this.yPosition + this.pieceHeight && pmouseY >= this.yPosition - this.pieceHeight) {
+    if (pmouseX >= (this.xPosition + width/12) - sliderLength && pmouseX <= (this.xPosition + width/12) + sliderLength
+      && pmouseY <= this.yPosition + (sliderHeight/2) && pmouseY >= this.yPosition - (sliderHeight/2)) {
       return true;
     } else {
       return false;
