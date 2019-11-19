@@ -40,7 +40,6 @@ class Slider {
       translate(xPosition, yPosition, zPosition);
       fill(255,255,255);
       box(sliderLength, sliderHeight, 15);
-      sliderPiece(yPosition); 
     popMatrix();
   }
   
