@@ -9,6 +9,14 @@ class Slider {
   float pieceHeight;
   float yPos;
   
+  float meatScore;
+  float dairyScore;
+  float plasticScore;
+  float disposablesScore;
+  float upcyclingScore;
+  float recyclingScore;
+  float impactScore;
+  
   Slider() {
     sliderLength = width / 45;
     sliderHeight = height / 6;
@@ -27,6 +35,14 @@ class Slider {
     pieceLength = 5 * sliderLength / 4;
     pieceHeight = sliderHeight / 8;
     yPos = yPosition;
+    
+    meatScore = - 0.5;
+    dairyScore = - 0.5;
+    plasticScore = - 0.5;
+    disposablesScore = - 0.5;
+    upcyclingScore = 0.5;
+    recyclingScore = 0.5;
+    impactScore = 3;
   }
   
   // ==================================================
@@ -62,6 +78,11 @@ class Slider {
       fill(#FFF700); // yellow
       box(pieceLength, pieceHeight, 22);
     popMatrix();
+  }
+  
+  // ---------------------------------------------------
+  float calculateImpactScore() {
+    return impactScore = recyclingScore + upcyclingScore - disposablesScore - plasticScore - dairyScore - meatScore;
   }
   
 } // end of Slider class

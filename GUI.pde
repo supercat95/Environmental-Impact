@@ -53,6 +53,18 @@ void initializePlanet() {
 }
 
 // ---------------------------------------------------
+void rotatePlanet() {
+  pushMatrix();
+    translate(width/2, height); 
+      rotateZ(zRotation);
+        rotateY(yRotation); 
+          shape(planetSphere);
+  popMatrix();
+  
+  yRotation -= 0.01;
+}
+
+// ---------------------------------------------------
 void drawSliders() {
   pushMatrix();
     translate(width/12,0,0);
@@ -65,7 +77,27 @@ void drawSliders() {
 void drawSliderPieces() {
   for (int i = 0; i < sliders.length; i++) {
     sliders[i].checkForSliding();
+    
+    if (sliders[0].checkIfHovering() && mousePressed) {
+      sliders[0].meatScore = pmouseY / 100.0;
+    }
+    if (sliders[1].checkIfHovering() && mousePressed) {
+      sliders[0].dairyScore = pmouseY / 100.0;
+    }
+    if (sliders[2].checkIfHovering() && mousePressed) {
+      sliders[0].plasticScore = pmouseY / 100.0;
+    }
+    if (sliders[3].checkIfHovering() && mousePressed) {
+      sliders[0].disposablesScore = pmouseY / 100.0;
+    }
+    if (sliders[4].checkIfHovering() && mousePressed) {
+      sliders[0].upcyclingScore = (pmouseY - (sliders[0].yPosition / 2)) / 100;
+    }
+    if (sliders[5].checkIfHovering() && mousePressed) {
+      sliders[0].recyclingScore = (pmouseY - (sliders[0].yPosition / 2)) / 100;
+    }
   }
+  println(sliders[0].calculateImpactScore());
 }
 
 void drawLabels() {
@@ -77,13 +109,4 @@ void drawLabels() {
   }
 }
 
-void rotatePlanet() {
-  pushMatrix();
-    translate(width/2, height); 
-      rotateZ(zRotation);
-        rotateY(yRotation); 
-          shape(planetSphere);
-  popMatrix();
-  
-  yRotation -= 0.01;
-}
+// ---------------------------------------------------
