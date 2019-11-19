@@ -71,8 +71,7 @@ void drawSliderPieces() {
 void drawLabels() {
   for (int i = 0; i < sliders.length; i++) {
       fill(255,255,255);
-      //textSize(17);
-      textSize((width * height) / 28500);
+      textSize(width/80);
       textAlign(CENTER);
       text(labels[i], sliders[i].xPosition + width/12, sliders[i].sliderHeight + sliders[i].yPosition);
   }
