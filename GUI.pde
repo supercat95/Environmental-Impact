@@ -24,6 +24,7 @@ void draw() {
   rotatePlanet();
   drawSliders();
   drawLabels();
+  drawSliderPieces(); 
   
   fill(255,255,255);
   translate(0,height-40,0);
@@ -59,13 +60,13 @@ void drawSliders() {
     sliders[i].createSlider();
     sliders[i].sliderPiece(sliders[i].yPosition);
   }
-  //sliders[0].sliderPiece(sliders[0].yPosition);
-  //sliders[1].sliderPiece(sliders[1].yPosition);
-  //sliders[2].sliderPiece(sliders[2].yPosition);
-  //sliders[3].sliderPiece(sliders[3].yPosition);
-  //sliders[4].sliderPiece(sliders[4].yPosition);
-  //sliders[5].sliderPiece(sliders[5].yPosition);
   popMatrix();
+}
+
+void drawSliderPieces() {
+  for (int i = 0; i < sliders.length; i++) {
+    sliders[i].checkForSliding();
+  }
 }
 
 void drawLabels() {
@@ -81,21 +82,10 @@ void drawLabels() {
 void rotatePlanet() {
   pushMatrix();
     translate(width/2, height); 
-      //rotateZ(zRotation);
-        //rotateY(yRotation); 
+      rotateZ(zRotation);
+        rotateY(yRotation); 
           shape(planetSphere);
   popMatrix();
   
   yRotation -= 0.01;
-}
-
-void mouseDragged() { 
-  for (int i = 0; i < sliders.length; i++) {
-    
-    if (pmouseX >= (sliders[i].xPosition + width/12) - sliders[i].sliderLength && pmouseX <= (sliders[i].xPosition + width/12) + sliders[i].sliderLength
-      && pmouseY <= sliders[i].yPosition + sliders[i].pieceHeight && pmouseY >= sliders[i].yPosition - sliders[i].pieceHeight)
-      {
-        sliders[i].sliderPiece(pmouseY);
-      } 
-  }
 }

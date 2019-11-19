@@ -9,6 +9,7 @@ class Slider {
   float pieceHeight;
   float yPos;
    
+  boolean isHovering;
   boolean isDragged;
   
   Slider() {
@@ -30,6 +31,7 @@ class Slider {
     pieceHeight = sliderHeight / 8;
     yPos = yPosition;
     
+    isHovering = false;
     isDragged = false;
   }
   
@@ -43,6 +45,32 @@ class Slider {
     popMatrix();
   }
   
+  void checkForSliding() {
+    if (checkIfHovering()) {
+      if (mousePressed) {
+        if (checkIfHovering()) {
+          yPos = pmouseY;
+          pushMatrix();
+            fill(#060115);
+            rect(0,0,width,height/3);
+            translate(width/12,0,0);
+              createSlider();
+              sliderPiece(yPos);
+          popMatrix();
+        }
+      }
+    }
+  }
+  
+  boolean checkIfHovering() {
+    if (pmouseX >= (this.xPosition + width/12) - this.sliderLength && pmouseX <= (this.xPosition + width/12) + this.sliderLength
+      && pmouseY <= this.yPosition + this.pieceHeight && pmouseY >= this.yPosition - this.pieceHeight) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+ 
   void sliderPiece(float y) {
     yPos = y;
     pushMatrix();
