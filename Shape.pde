@@ -42,19 +42,37 @@ class Shape {
     zPosition = radius * cos(zRotation);
   }
   
-  void get_zPosition() {
+  float get_zPosition() {
     return zPosition;
   }
   
   // ---------------------------------------------------
   void drawShape(PShape pshape) {
     shape = pshape;
-    this.shape(shape, get_xPosition(), get_yPosition(), get_zPosition());
-    shape.setTexture(determineTexture());
+    pushMatrix();
+      translate(0, 0, get_zPosition());
+        shape(shape, get_xPosition(), get_yPosition());
+        shape.setTexture(determineTexture());
+    popMatrix();
   }
 
-  void determineTexture() {
-    if (shape == "cowShape.obj") { texture = "cowFur.jpg"; }
+  PImage determineTexture() {
+    if (shape == cowShape) { return cowFur; }
+    return cowFur;
+  }
+  
+  // ---------------------------------------------------
+  void addShapes() {
+    for (int i = 0; i < ceil(sliders[0].impactScore * 10); i+= typesOfShapes) {
+      shapes.add(new Shape(radius));
+    }
+    
+  }
+  
+  void removeShapes() {
+    for (int i = shapes.size() - 1; i >= 0; i--) {
+      shapes.remove(i);
+    }
   }
   
 } // end of Shape Class

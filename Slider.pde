@@ -15,6 +15,7 @@ class Slider {
   float zerowasteScore;
   float upcyclingScore;
   float recyclingScore;
+  float totalScore;
   float impactScore;
   
   Slider() {
@@ -42,7 +43,8 @@ class Slider {
     zerowasteScore = 0.5;
     upcyclingScore = 0.5;
     recyclingScore = 0.5;
-    impactScore = 0.5;
+    totalScore = 0.5;
+    impactScore = 0;
   }
   
   // ==================================================
@@ -81,8 +83,8 @@ class Slider {
   
   // ---------------------------------------------------
   float calculateImpactScore() { // ~ -0.005(good), 0.5 (neutral), 1.005 (bad)
-    impactScore = (recyclingScore + upcyclingScore + zerowasteScore - disposablesScore - dairyScore - meatScore) / 6;
-    return map(impactScore, -0.33,0.33, 0.0,1.0);
+    totalScore = (recyclingScore + upcyclingScore + zerowasteScore - disposablesScore - dairyScore - meatScore) / 6;
+    return impactScore = map(totalScore, -0.33,0.33, 0.0,1.0);
 }
   
 } // end of Slider class

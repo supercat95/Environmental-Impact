@@ -16,6 +16,8 @@ float radius;
 float score;
 
 ArrayList<Shape> shapes;
+int typesOfShapes = 1;
+int numberOfShapes;
 PShape cowShape;
 PImage cowFur;
 
@@ -64,7 +66,7 @@ void initializePlanet() {
 
 void initializeShapes() {
   shapes = new ArrayList<Shape>();
-  for (int i = 0; i < sliders[0].impactScore * 10; i++) {
+  for (int i = 0; i < sliders[0].totalScore * 10; i++) {
     shapes.add(new Shape(radius));
   }
 }
@@ -120,8 +122,6 @@ void drawSliderPieces() {
     }
   }
   println(sliders[0].calculateImpactScore());
-  //println(sliders[0].meatScore, sliders[0].recyclingScore);
-  //println(sliders[0].yPosition, sliders[0].sliderHeight);
 }
 
 void drawLabels() {
@@ -133,7 +133,18 @@ void drawLabels() {
   }
 }
 
+void drawShapes() {
+  determineHowManyShapesToCreate();
+  for (int i = 0; i < shapes.size() * typesOfShapes; i++) {
+    
+  }
+}
+  
 // ---------------------------------------------------
 float returnScore() {
   return score = lerp(sliders[0].yPosition/2 + (sliders[0].yPosition/2 - sliders[0].sliderHeight/2), sliders[0].yPosition + sliders[0].sliderHeight/2, pmouseY/100);
+}
+
+void determineHowManyShapesToCreate() {
+  numberOfShapes = int(ceil(sliders[0].impactScore * 10));
 }
