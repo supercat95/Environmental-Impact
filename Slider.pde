@@ -46,7 +46,6 @@ class Slider {
   }
   
   // ==================================================
-  
   void createSlider() {
     pushMatrix();
       translate(xPosition, yPosition, zPosition);

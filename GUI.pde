@@ -11,20 +11,22 @@ PImage planetTexture;
 
 float yRotation = 1.0;
 float zRotation = 23;
+float radius;
 
 float score;
 
+ArrayList<Shape> shapes;
 PShape cowShape;
 PImage cowFur;
 
 void setup() {
   //fullScreen(P3D);
   size(640, 400, P3D);
+  radius = height/2;
   initializeOverloadedSliders();
   initializePlanet();
-  
-  cowShape = loadShape("cow.obj");
-  cowFur = loadImage("cowFur.png");
+  initializeShapes();
+  initializeObjectsAndImages();
 }
 
 void draw() {
@@ -55,9 +57,21 @@ void initializeOverloadedSliders() {
 
 void initializePlanet() {
   noStroke();
-  planetSphere = createShape(SPHERE, height/2);
+  planetSphere = createShape(SPHERE, radius);
   planetTexture = loadImage("planetTexture.png");
   planetSphere.setTexture(planetTexture);
+}
+
+void initializeShapes() {
+  shapes = new ArrayList<Shape>();
+  for (int i = 0; i < sliders[0].impactScore * 10; i++) {
+    shapes.add(new Shape(radius));
+  }
+}
+
+void initializeObjectsAndImages() {
+  cowShape = loadShape("cowShape.obj");  // file from https://free3d.com/3d-model/cow-v4--997323.html
+  cowFur = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
 }
 
 // ---------------------------------------------------
