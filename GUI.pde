@@ -14,11 +14,17 @@ float zRotation = 23;
 
 float score;
 
+PShape cowShape;
+PImage cowFur;
+
 void setup() {
   //fullScreen(P3D);
   size(640, 400, P3D);
   initializeOverloadedSliders();
   initializePlanet();
+  
+  cowShape = loadShape("cow.obj");
+  cowFur = loadImage("cowFur.png");
 }
 
 void draw() {
