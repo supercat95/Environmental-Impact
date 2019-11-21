@@ -33,10 +33,11 @@ void setup() {
 
 void draw() {
   background(#060115); // dark blue/purple
-  rotatePlanet();
+  //rotatePlanet();
   drawSliders();
   drawLabels();
   drawSliderPieces(); 
+  drawShapes();
   
   fill(255,255,255);
   translate(0,height-40,0);
@@ -134,9 +135,10 @@ void drawLabels() {
 }
 
 void drawShapes() {
-  determineHowManyShapesToCreate();
-  for (int i = 0; i < shapes.size() * typesOfShapes; i++) {
-    
+  for (int i = 0; i < shapes.size(); i++) {
+    //shapes = shapes.get(i);
+    shapes.addShapes();
+    shapes.drawShape(cowShape);
   }
 }
   
@@ -145,6 +147,7 @@ float returnScore() {
   return score = lerp(sliders[0].yPosition/2 + (sliders[0].yPosition/2 - sliders[0].sliderHeight/2), sliders[0].yPosition + sliders[0].sliderHeight/2, pmouseY/100);
 }
 
-void determineHowManyShapesToCreate() {
-  numberOfShapes = int(ceil(sliders[0].impactScore * 10));
+int howManyShapesToCreate() {
+  if (shapes.size() ==  0) { return numberOfShapes = typesOfShapes * 10; }
+  return numberOfShapes = int(ceil(sliders[0].impactScore * 10));
 }

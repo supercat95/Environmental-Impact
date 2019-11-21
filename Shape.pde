@@ -63,10 +63,7 @@ class Shape {
   
   // ---------------------------------------------------
   void addShapes() {
-    for (int i = 0; i < ceil(sliders[0].impactScore * 10); i+= typesOfShapes) {
-      shapes.add(new Shape(radius));
-    }
-    
+    shapes.add(new Shape(radius));    
   }
   
   void removeShapes() {
