@@ -10,6 +10,16 @@ class Shape {
   PShape shape;
   PImage texture;
   
+  Shape() {
+    xPosition = 0;
+    yPosition = 0;
+    zPosition = 0;
+    xRotation = 0;
+    yRotation = 0;
+    zRotation = 0;
+    radius = 0;
+  }
+  
   Shape(float planetRadius) {
     xPosition = 0;
     yPosition = 0;
@@ -50,10 +60,10 @@ class Shape {
   void drawShape(PShape pshape) {
     shape = pshape;
     pushMatrix();
-      translate(0, 0, get_zPosition());
+      //translate(0, 0, get_zPosition());
         shape(shape, get_xPosition(), get_yPosition());
         shape.setTexture(determineTexture());
-    popMatrix();
+    //popMatrix();
   }
 
   PImage determineTexture() {
@@ -62,14 +72,5 @@ class Shape {
   }
   
   // ---------------------------------------------------
-  void addShapes() {
-    shapes.add(new Shape(radius));    
-  }
-  
-  void removeShapes() {
-    for (int i = shapes.size() - 1; i >= 0; i--) {
-      shapes.remove(i);
-    }
-  }
   
 } // end of Shape Class

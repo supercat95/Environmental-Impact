@@ -29,6 +29,7 @@ void setup() {
   initializePlanet();
   initializeShapes();
   initializeObjectsAndImages();
+  drawShapes();
 }
 
 void draw() {
@@ -36,8 +37,10 @@ void draw() {
   //rotatePlanet();
   drawSliders();
   drawLabels();
-  drawSliderPieces(); 
-  drawShapes();
+  drawSliderPieces();
+  
+  //sliders.get(0);
+  shape(cowShape, sliders.get_xPosition(), sliders.get_yPosition());
   
   fill(255,255,255);
   translate(0,height-40,0);
@@ -122,7 +125,6 @@ void drawSliderPieces() {
       sliders[0].recyclingScore = map(returnScore(), 47,113, 0,1);
     }
   }
-  println(sliders[0].calculateImpactScore());
 }
 
 void drawLabels() {
@@ -135,9 +137,7 @@ void drawLabels() {
 }
 
 void drawShapes() {
-  for (int i = 0; i < shapes.size(); i++) {
-    //shapes = shapes.get(i);
-    shapes.addShapes();
+  for (Shape shapes : shapes) {
     shapes.drawShape(cowShape);
   }
 }
@@ -150,4 +150,14 @@ float returnScore() {
 int howManyShapesToCreate() {
   if (shapes.size() ==  0) { return numberOfShapes = typesOfShapes * 10; }
   return numberOfShapes = int(ceil(sliders[0].impactScore * 10));
+}
+
+ void addShapes() {
+  shapes.add(new Shape(radius));    
+}
+
+void removeShapes() {
+  for (int i = shapes.size() - 1; i >= 0; i--) {
+    shapes.remove(i);
+  }
 }
