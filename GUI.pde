@@ -39,9 +39,6 @@ void draw() {
   drawLabels();
   drawSliderPieces();
   
-  //sliders.get(0);
-  shape(cowShape, sliders.get_xPosition(), sliders.get_yPosition());
-  
   fill(255,255,255);
   translate(0,height-40,0);
   rect(0,0, 40,40);
