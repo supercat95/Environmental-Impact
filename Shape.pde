@@ -9,11 +9,7 @@ class Shape {
   
   PShape shape;
   PImage texture;
-  color filling;
-  
-  int selection;
-  Cow cow = new Cow();
-  Tree tree = new Tree();
+  int filling;
   
   float rotateX;
   float rotateY;
@@ -72,7 +68,7 @@ class Shape {
   }
   
   // ---------------------------------------------------
-  void drawShape(float xRot, float yRot, PShape obj, color fill, PImage image, int mag) {
+  void drawShape(float xRot, float yRot, PShape obj, int fill, PImage image, int mag) {
     xRotation = xRot;
     yRotation = yRot;
     shape = obj;
@@ -82,8 +78,10 @@ class Shape {
     
     pushMatrix();
       translate(get_xPosition(), get_yPosition(), get_zPosition());
+      //translate(0,0,0);
       rotateX(xRotation);
       rotateY(yRotation);
+      scale(scale);
         shape(shape, 0, 0);
         shape.setFill(filling);
         if (texture != NULL) { 

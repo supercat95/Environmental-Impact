@@ -46,7 +46,7 @@ void setup() {
 }
 
 void draw() {
-  background(#060115); // dark blue/purple
+  //background(#060115); // dark blue/purple
   //rotatePlanet();
   camera.beginHUD();
     drawSliders();
@@ -177,15 +177,16 @@ void drawLabels() {
 
 void drawShapes() {
   pushMatrix();
-    translate(width/2, height);
-      for (Shape shapes : shapes) {
+    translate(width/2, height/2, 0); // set back to height
+      for (int i = 0; i < shapes.size(); i++) {
+        Shape shape = shapes.get(i);
         int index = int(random(shapeOptions.length));
         switch (index) {
           case 0:
-            shapes.drawShape(PI, PI, cowShape, color(0,0,0), cowTexture, 5);
+            shape.drawShape(PI, PI, cowShape, color(0,0,0), cowTexture, 3);
             break;
           case 1:
-            shapes.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 5);
+            shape.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 7);
             break;
         }
       }
