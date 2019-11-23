@@ -43,14 +43,14 @@ void setup() {
   initializeObjectsAndImages();
   initializeShapes();
   
-  //for (index = 0; index < shapes.size() -1; index++) {
-  //  drawShapes();
-  //}
+  for (index = 0; index < shapes.size() -1; index++) {
+    drawShapes();
+  }
 }
 
 void draw() {
   //background(#060115); // dark blue/purple
-  rotatePlanetAndShapes();
+  //rotatePlanetAndShapes();
   camera.beginHUD();
     drawSliders();
     drawLabels();
