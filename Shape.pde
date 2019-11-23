@@ -15,7 +15,12 @@ class Shape {
   
   float rotateX;
   float rotateY;
-  int scale;
+  float scale;
+  
+  PVector vector;
+  float xTheta;
+  float yTheta;
+  float zTheta;
   
   Shape() {
     xPosition = 0;
@@ -74,8 +79,32 @@ class Shape {
     return zPosition = radius * cos(get_zAngle());
   }
   
+  void performVectorMath() {
+    float rx = get_xPosition() / sqrt(sq(get_xPosition()) + sq(get_xPosition()) + sq(get_xPosition()));
+    float ry = get_yPosition() / sqrt(sq(get_xPosition()) + sq(get_xPosition()) + sq(get_xPosition()));
+    float rz = get_yPosition() / sqrt(sq(get_xPosition()) + sq(get_xPosition()) + sq(get_xPosition()));
+    xTheta = asin(rx);
+    yTheta = asin(ry);
+    zTheta = asin(rz);
+    //vector = new PVector(this.get_xPosition(), this.get_yPosition(), this.get_zPosition());
+    //vector.mult(radius);
+    //return vector.heading();
+  }
+  
+  float get_xTheta() {
+    return xTheta;
+  }
+  
+  float get_yTheta() {
+    return yTheta;
+  }
+  
+  float get_zTheta() {
+    return zTheta;
+  }
+  
   // ---------------------------------------------------
-  void drawShape(float xRot, float yRot, PShape obj, int fill, PImage image, int mag) {
+  void drawShape(float xRot, float yRot, PShape obj, int fill, PImage image, float mag) {
     xRotation = xRot;
     yRotation = yRot;
     shape = obj;
@@ -85,9 +114,10 @@ class Shape {
     
     pushMatrix();
       translate(get_xPosition(), get_yPosition(), get_zPosition());
-      rotateX(xRotation - cos(get_xPosition()));
-      rotateY(yRotation - sin(get_yPosition()));
-      //rotateZ(sin(get_zPosition()) * cos(get_zPosition()));
+      //rotate(performVectorMath());
+      rotateX(xRotation);
+      rotateY(yRotation);
+      rotateZ(cos(get_xTheta()) + sin(get_yTheta()));
       scale(scale);
         shape(shape, 0, 0);
         if (texture == NULL) {

@@ -20,12 +20,16 @@ float score;
 ArrayList<Shape> shapes;
 PShape cowShape;
 PShape treeShape;
-PShape[] shapeOptions = {cowShape, treeShape};
+PShape trashShape;
+PShape turtleShape;
+
+PShape[] shapeOptions = {cowShape, treeShape, trashShape, turtleShape};
 int numberOfShapes;
 
 PImage cowTexture;
 PImage NULL;
-PImage[] textureOptions = {cowTexture};
+PImage turtleTexture;
+PImage[] textureOptions = {cowTexture, NULL, NULL, turtleTexture};
 
 int index;
 
@@ -96,10 +100,13 @@ void initializePlanet() {
 
 void initializeObjectsAndImages() {
   cowShape = loadShape("cowShape.obj");  // file from https://free3d.com/3d-model/cow-v4--997323.html
-  cowTexture = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
-  
   treeShape = loadShape("treeShape.obj"); // file from https://free3d.com/3d-model/low-poly-tree-73217.html
+  trashShape = loadShape("trashShape.obj"); // file from https://free3d.com/3d-model/trash-can-v1--109518.html
+  turtleShape = loadShape("turtleShape.obj"); // file from https://free3d.com/3d-model/-sea-turtle-v1--427786.html
+  
+  cowTexture = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
   NULL = loadImage("NULL.png"); // image is an unused placeholder to allow for setFill()
+  turtleTexture = loadImage("turtleTexture.jpg"); // image from https://s-media-cache-ak0.pinimg.com/736x/77/23/86/772386b662e4ca88794dbb9463c57ea9.jpg
   
 }
 
@@ -191,6 +198,11 @@ void drawShapes() {
         case 1:
           shape.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 7);
           break;
+        case 2:
+          shape.drawShape(PI/2, 0, trashShape, color(#585252), NULL, 6);
+          break;
+        case 3:
+          shape.drawShape(PI/2, 0, turtleShape, color(0,0,0), turtleTexture, 0.5);
       }
   popMatrix();
 }
