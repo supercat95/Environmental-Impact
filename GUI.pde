@@ -18,17 +18,18 @@ float radius;
 float score;
 
 ArrayList<Shape> shapes;
-int typesOfShapes = 1;
-int numberOfShapes;
-
 PShape cowShape;
 PShape treeShape;
+PShape[] shapeOptions = {cowShape, treeShape};
+int numberOfShapes;
 
 PImage cowFur;
+PImage[] textureOptions = {cowFur};
 
 void setup() {
-  //fullScreen(P3D);
-  size(640, 400, P3D);
+  fullScreen(P3D);
+  //size(640, 400, P3D);
+  //frameRate(200);
   
   initializePeasyCam();
   camera.setYawRotationMode();
@@ -50,10 +51,14 @@ void draw() {
     drawSliders();
     drawLabels();
     drawSliderPieces();
+    
+    resetButton();
   camera.endHUD();
   
+  peasyCamOrNot();
   checkIfScoreHasChanged();
-  println(sliders[0].calculateImpactScore(), shapes.size());
+  drawShapes();
+  println(sliders[0].calculateImpactScore(), howManyShapesNeeded(), shapes.size());
   
   fill(255,255,255);
   translate(0,height-40,0);
@@ -111,6 +116,16 @@ void rotatePlanet() {
   popMatrix();
   
   yRotation -= 0.01;
+}
+
+// ---------------------------------------------------
+void peasyCamOrNot() {
+  if (pmouseY < sliders[0].yPosition + sliders[0].sliderHeight) {
+    camera.setActive(false);
+  }
+  else {
+    camera.setActive(true);
+  }
 }
 
 // ---------------------------------------------------
@@ -172,30 +187,44 @@ float returnScore() {
 void checkIfScoreHasChanged() {
   for (int i = 0; i < sliders.length; i++) {
     if (sliders[i].checkIfHovering() && mousePressed) {
-      if (sliders[0].impactScore > 0.0) {
-        removeShapes();
-      } else {
-        addShapes();
-      }
+      addOrRemoveShapes();
     }
   }
 }
 
 int howManyShapesNeeded() {
-  if (shapes.size() ==  0) { return numberOfShapes = typesOfShapes * 10; }
-  return numberOfShapes = int(ceil(sliders[0].calculateImpactScore()));
+  if (shapes.size() ==  0) { return numberOfShapes = shapeOptions.length * 100; }
+  if (sliders[0].calculateImpactScore() == 0) { return numberOfShapes = 60; }
+  if (sliders[0].calculateImpactScore() == 1) { return numberOfShapes = 0; }
+  return numberOfShapes = int(ceil(sliders[0].calculateImpactScore() * 60));
 }
 
-void addShapes() {
-  if (shapes.size() < howManyShapesNeeded()) {
+void addOrRemoveShapes() {
+  while (shapes.size() < howManyShapesNeeded()) {
     shapes.add(new Shape(radius));    
    }
-}
 
-void removeShapes() {
-  if (shapes.size() > howManyShapesNeeded()) {
+  while (shapes.size() > howManyShapesNeeded()) {
     for (int i = shapes.size() - 1; i >= 0; i--) {
       shapes.remove(i);
     }
+  }
+}
+
+// ---------------------------------------------------
+void resetButton() {
+  fill(255,0,0);
+  pushMatrix();
+  translate(width*.92, height - (width*.08));
+  rect(0, 0, width*.08, width*.08, 7);
+  fill(255,255,255);
+  textAlign(CENTER,CENTER);
+  text("RESET CAMERA", 0, 0, width*.08, width*.08);
+  popMatrix();
+}
+
+void mousePressed() {
+  if (pmouseX > width*.92 && pmouseY > height-(width*.08)) {
+    camera.reset();
   }
 }
