@@ -27,8 +27,8 @@ PImage cowFur;
 PImage[] textureOptions = {cowFur};
 
 void setup() {
-  fullScreen(P3D);
-  //size(640, 400, P3D);
+  //fullScreen(P3D);
+  size(640, 400, P3D);
   //frameRate(200);
   
   initializePeasyCam();
@@ -176,7 +176,7 @@ void drawShapes() {
   pushMatrix();
     translate(width/2, height);
       for (Shape shapes : shapes) {
-        shapes.drawCow();
+        shapes.drawShape();
       }
   popMatrix();
 }

@@ -1,17 +1,19 @@
 class Cow extends Shape {
   Cow() {
     xRotation = PI;
-    YRotation = PI;
+    yRotation = PI;
+    scale = 5;
     shape = cowShape;
-    texture = cowFur;
+    texture = cowFur;   
   }
   
   void drawCow() {
     pushMatrix();
-      translate(0, 0, get_zPosition());
+      translate(get_xPosition(), get_yPosition(), get_zPosition());
       rotateX(xRotation);
       rotateY(yRotation);
-        shape(shape, get_xPosition(), get_yPosition());
+      scale(scale);
+        shape(shape, 0, 0);
         shape.setTexture(texture);
     popMatrix();
   }
@@ -20,6 +22,7 @@ class Cow extends Shape {
 class Tree extends Shape {
   Tree() {
     xRotation = PI;  
+    scale = 5;
     shape = treeShape;
   }
   

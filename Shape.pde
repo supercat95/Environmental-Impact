@@ -10,6 +10,10 @@ class Shape {
   PShape shape;
   PImage texture;
   
+  int selection;
+  Cow cow = new Cow();
+  Tree tree = new Tree();
+  
   float rotateX;
   float rotateY;
   int scale;
@@ -67,29 +71,21 @@ class Shape {
   }
   
   // ---------------------------------------------------
-  //void drawShape(PShape pshape) {
-  //  shape = pshape;
-  //  pushMatrix();
-  //    translate(0, 0, get_zPosition());
-  //    rotateX(xRotation);
-  //    rotateY(yRotation);
-  //      shape(shape, get_xPosition(), get_yPosition());
-  //      shape.setTexture(texture);
-  //  popMatrix();
-  //}
-
-  //void determineTextureOrColor() {
-  //  if (shape == cowShape) { 
-  //    shape.setTexture(cowFur);
-  //  }
-  //  if (shape == treeShape) { 
-  //    shape.setFill(color(0,255,0)); 
-  //  }
-  //  shape.setTexture(cowFur);
-  //}
+  void drawShape() {
+    //pushMatrix();
+    //  translate(get_xPosition(), get_yPosition(), get_zPosition());
+    //  rotateX(xRotation);
+    //  rotateY(yRotation);
+    //    shape(shape, 0, 0);
+    //    shape.setTexture(texture);
+    //popMatrix();
+    cow.drawCow();
+  }
   
-  
-  
+  void selectSubclass() {
+    if (selection == 0) { cow.drawCow(); }
+  }
+ 
   // ---------------------------------------------------
   
 } // end of Shape Class
