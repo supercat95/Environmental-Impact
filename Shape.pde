@@ -9,6 +9,7 @@ class Shape {
   
   PShape shape;
   PImage texture;
+  color filling;
   
   int selection;
   Cow cow = new Cow();
@@ -71,21 +72,24 @@ class Shape {
   }
   
   // ---------------------------------------------------
-  void drawShape() {
-    //pushMatrix();
-    //  translate(get_xPosition(), get_yPosition(), get_zPosition());
-    //  rotateX(xRotation);
-    //  rotateY(yRotation);
-    //    shape(shape, 0, 0);
-    //    shape.setTexture(texture);
-    //popMatrix();
-    cow.drawCow();
+  void drawShape(float xRot, float yRot, PShape obj, color fill, PImage image, int mag) {
+    xRotation = xRot;
+    yRotation = yRot;
+    shape = obj;
+    texture = image;
+    filling = fill;
+    scale = mag;
+    
+    pushMatrix();
+      translate(get_xPosition(), get_yPosition(), get_zPosition());
+      rotateX(xRotation);
+      rotateY(yRotation);
+        shape(shape, 0, 0);
+        shape.setFill(filling);
+        if (texture != NULL) { 
+          shape.setTexture(texture); 
+        }
+    popMatrix();
   }
-  
-  void selectSubclass() {
-    if (selection == 0) { cow.drawCow(); }
-  }
- 
-  // ---------------------------------------------------
   
 } // end of Shape Class

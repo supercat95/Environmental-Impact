@@ -4,7 +4,7 @@ class Cow extends Shape {
     yRotation = PI;
     scale = 5;
     shape = cowShape;
-    texture = cowFur;   
+    texture = cowTexture;   
   }
   
   void drawCow() {

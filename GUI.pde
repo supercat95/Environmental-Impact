@@ -23,8 +23,9 @@ PShape treeShape;
 PShape[] shapeOptions = {cowShape, treeShape};
 int numberOfShapes;
 
-PImage cowFur;
-PImage[] textureOptions = {cowFur};
+PImage cowTexture;
+PImage NULL;
+PImage[] textureOptions = {cowTexture};
 
 void setup() {
   //fullScreen(P3D);
@@ -94,9 +95,11 @@ void initializePlanet() {
 
 void initializeObjectsAndImages() {
   cowShape = loadShape("cowShape.obj");  // file from https://free3d.com/3d-model/cow-v4--997323.html
-  treeShape = loadShape("treeShape.obj"); // file from https://free3d.com/3d-model/low-poly-tree-73217.html
+  cowTexture = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
   
-  cowFur = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
+  treeShape = loadShape("treeShape.obj"); // file from https://free3d.com/3d-model/low-poly-tree-73217.html
+  NULL = loadImage("NULL.png"); // image is an unused placeholder to allow for setFill()
+  
 }
 
 void initializeShapes() {
@@ -176,7 +179,15 @@ void drawShapes() {
   pushMatrix();
     translate(width/2, height);
       for (Shape shapes : shapes) {
-        shapes.drawShape();
+        int index = int(random(shapeOptions.length));
+        switch (index) {
+          case 0:
+            shapes.drawShape(PI, PI, cowShape, color(0,0,0), cowTexture, 5);
+            break;
+          case 1:
+            shapes.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 5);
+            break;
+        }
       }
   popMatrix();
 }
