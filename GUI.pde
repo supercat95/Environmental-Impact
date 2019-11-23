@@ -32,7 +32,6 @@ int index;
 void setup() {
   //fullScreen(P3D);
   size(640, 400, P3D);
-  //frameRate(200);
   
   initializePeasyCam();
   camera.setYawRotationMode();
@@ -44,14 +43,14 @@ void setup() {
   initializeObjectsAndImages();
   initializeShapes();
   
-  for (index = 0; index < shapes.size(); index++) {
-    drawShapes();
-  }
+  //for (index = 0; index < shapes.size() -1; index++) {
+  //  drawShapes();
+  //}
 }
 
 void draw() {
   //background(#060115); // dark blue/purple
-  //rotatePlanet();
+  rotatePlanetAndShapes();
   camera.beginHUD();
     drawSliders();
     drawLabels();
@@ -61,7 +60,6 @@ void draw() {
   camera.endHUD();
   
   peasyCamOrNot();
-  checkIfScoreHasChanged();
   println(sliders[0].calculateImpactScore(), howManyShapesNeeded(), shapes.size());
   
   fill(255,255,255);
@@ -113,12 +111,15 @@ void initializeShapes() {
 }
 
 // ---------------------------------------------------
-void rotatePlanet() {
+void rotatePlanetAndShapes() {
   pushMatrix();
     translate(width/2, height); 
       rotateZ(zRotation);
         rotateY(yRotation); 
           shape(planetSphere);
+          if (mousePressed == false) {
+            checkIfScoreHasChanged();
+          }
   popMatrix();
   
   yRotation -= 0.01;
@@ -181,18 +182,16 @@ void drawLabels() {
 void drawShapes() {
   pushMatrix();
     translate(width/2, height, 0);  
-      //for (int i = 0; i < shapes.size(); i++) { // if shapes = number
-        Shape shape = shapes.get(index);
-        int option = int(random(shapeOptions.length));
-        switch (option) {
-          case 0:
-            shape.drawShape(PI, PI, cowShape, color(0,0,0), cowTexture, 3);
-            break;
-          case 1:
-            shape.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 7);
-            break;
-        }
-      //}
+      Shape shape = shapes.get(index);
+      int option = int(random(shapeOptions.length));
+      switch (option) {
+        case 0:
+          shape.drawShape(PI, PI, cowShape, color(0,0,0), cowTexture, 3);
+          break;
+        case 1:
+          shape.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 7);
+          break;
+      }
   popMatrix();
 }
   
@@ -207,6 +206,9 @@ void checkIfScoreHasChanged() {
     if (sliders[i].checkIfHovering() && mousePressed) {
       addOrRemoveShapes();
     }
+  }
+  if (mousePressed == false) {
+    drawShapes();
   }
 }
 

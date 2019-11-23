@@ -6,6 +6,8 @@ class Shape {
   float yRotation;
   float zRotation;
   float radius;
+  float yAngle;
+  float zAngle;
   
   PShape shape;
   PImage texture;
@@ -23,6 +25,8 @@ class Shape {
     yRotation = 0;
     zRotation = 0;
     radius = 0;
+    yAngle = 0.0;
+    zAngle = 0.0;
   }
   
   Shape(float planetRadius) {
@@ -33,23 +37,39 @@ class Shape {
     yRotation = 0.0;
     zRotation = 0.0;
     radius = planetRadius;
+    yAngle = 0.0;
+    zAngle = 0.0;
     rotateX = 0.0;
     rotateY = 0.0;
     scale = 1;
   }
   
   // ==================================================
+  void randomizeAngles() {
+    yAngle = random(0, 2*PI);
+    zAngle = random(0, 2*PI);
+  }
+  
+  float get_yAngle() {
+    return yAngle;
+  }
+  
+  float get_zAngle() {
+    return zAngle;
+  }
+  
   // math equations from https://stackoverflow.com/questions/969798/plotting-a-point-on-the-edge-of-a-sphere
   float get_xPosition() {
-    return xPosition = radius * cos(random(-2*PI, PI)) * sin(random(-2*PI, PI));
+    randomizeAngles();
+    return xPosition = radius * cos(get_zAngle()) * sin(get_yAngle());
   }
   
   float get_yPosition() {
-    return yPosition = radius * sin(random(-2*PI, PI)) * sin(random(-2*PI, PI));
+    return yPosition = radius * sin(get_zAngle()) * sin(get_yAngle());
   }
   
   float get_zPosition() {
-    return zPosition = radius * cos(random(-2*PI, PI));
+    return zPosition = radius * cos(get_zAngle());
   }
   
   // ---------------------------------------------------
@@ -63,8 +83,8 @@ class Shape {
     
     pushMatrix();
       translate(get_xPosition(), get_yPosition(), get_zPosition());
-      rotateX(xRotation + get_xPosition());
-      rotateY(yRotation + get_yPosition());
+      rotateX(xRotation);
+      rotateY(yRotation);
       scale(scale);
         shape(shape, 0, 0);
         if (texture == NULL) {
