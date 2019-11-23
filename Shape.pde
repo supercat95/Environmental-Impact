@@ -66,17 +66,17 @@ class Shape {
   // math equations from https://stackoverflow.com/questions/969798/plotting-a-point-on-the-edge-of-a-sphere
   float get_xPosition() {
     randomizeAngles();
-    return xPosition = radius * (cos(get_zAngle()) * sin(get_yAngle()));
+    return xPosition = radius * cos(get_zAngle()) * sin(get_yAngle());
   }
   
   float get_yPosition() {
     randomizeAngles();
-    return yPosition = radius * (sin(get_zAngle()) * sin(get_yAngle()));
+    return yPosition = radius * sin(get_zAngle()) * sin(get_yAngle());
   }
   
   float get_zPosition() {
     randomizeAngles();
-    return zPosition = radius * cos(get_zAngle());
+    return zPosition = radius * cos(get_yAngle());
   }
   
   void performVectorMath() {
@@ -114,10 +114,10 @@ class Shape {
     
     pushMatrix();
       translate(get_xPosition(), get_yPosition(), get_zPosition());
-      //rotate(performVectorMath());
-      rotateX(xRotation);
-      rotateY(yRotation);
-      rotateZ(cos(get_xTheta()) + sin(get_yTheta()));
+      performVectorMath();
+      rotateX(get_xTheta() * xRotation);
+      rotateY(get_yTheta() * yRotation);
+      rotateZ(get_zTheta() * zRotation);
       scale(scale);
         shape(shape, 0, 0);
         if (texture == NULL) {

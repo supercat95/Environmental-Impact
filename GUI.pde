@@ -20,16 +20,15 @@ float score;
 ArrayList<Shape> shapes;
 PShape cowShape;
 PShape treeShape;
-PShape trashShape;
 PShape turtleShape;
-
-PShape[] shapeOptions = {cowShape, treeShape, trashShape, turtleShape};
+PShape[] shapeOptions = {cowShape, treeShape, turtleShape};
 int numberOfShapes;
 
 PImage cowTexture;
 PImage NULL;
 PImage turtleTexture;
-PImage[] textureOptions = {cowTexture, NULL, NULL, turtleTexture};
+PImage[] textureOptions = {cowTexture, NULL, turtleTexture};
+
 
 int index;
 
@@ -54,7 +53,7 @@ void setup() {
 
 void draw() {
   //background(#060115); // dark blue/purple
-  //rotatePlanetAndShapes();
+  rotatePlanetAndShapes();
   camera.beginHUD();
     drawSliders();
     drawLabels();
@@ -101,7 +100,6 @@ void initializePlanet() {
 void initializeObjectsAndImages() {
   cowShape = loadShape("cowShape.obj");  // file from https://free3d.com/3d-model/cow-v4--997323.html
   treeShape = loadShape("treeShape.obj"); // file from https://free3d.com/3d-model/low-poly-tree-73217.html
-  trashShape = loadShape("trashShape.obj"); // file from https://free3d.com/3d-model/trash-can-v1--109518.html
   turtleShape = loadShape("turtleShape.obj"); // file from https://free3d.com/3d-model/-sea-turtle-v1--427786.html
   
   cowTexture = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
@@ -120,11 +118,12 @@ void initializeShapes() {
 // ---------------------------------------------------
 void rotatePlanetAndShapes() {
   pushMatrix();
-    translate(width/2, height); 
+    translate(width/2, height, 0); 
       rotateZ(zRotation);
         rotateY(yRotation); 
           shape(planetSphere);
           if (mousePressed == false) {
+            translate(-width/2, -height, 0);
             checkIfScoreHasChanged();
           }
   popMatrix();
@@ -199,10 +198,7 @@ void drawShapes() {
           shape.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 7);
           break;
         case 2:
-          shape.drawShape(PI/2, 0, trashShape, color(#585252), NULL, 6);
-          break;
-        case 3:
-          shape.drawShape(PI/2, 0, turtleShape, color(0,0,0), turtleTexture, 0.5);
+          shape.drawShape(PI/2, 0, turtleShape, color(0,0,0), turtleTexture, 0.3);
       }
   popMatrix();
 }
@@ -225,23 +221,22 @@ void checkIfScoreHasChanged() {
 }
 
 int howManyShapesNeeded() {
-  if (shapes.size() ==  0) { return numberOfShapes = shapeOptions.length * 100; }
+  if (shapes.size() ==  0 && sliders[0].calculateImpactScore() == 0.499999994) { return numberOfShapes = 30; }
   if (sliders[0].calculateImpactScore() == 0) { return numberOfShapes = 60; }
   if (sliders[0].calculateImpactScore() == 1) { return numberOfShapes = 0; }
   return numberOfShapes = int(ceil(sliders[0].calculateImpactScore() * 60));
 }
 
 void addOrRemoveShapes() {
-  while (shapes.size() < howManyShapesNeeded()) {
-    shapes.add(new Shape(radius));   
+  for (index = shapes.size(); index < howManyShapesNeeded(); index++) {
+    shapes.add(new Shape(radius));  
+    drawShapes();
    }
 
-  while (shapes.size() > howManyShapesNeeded()) {
-    for (index = shapes.size()-1; index > howManyShapesNeeded(); index--) {
-      shapes.remove(index);
-    }
+  for (index = shapes.size()-1; index > howManyShapesNeeded(); index--) {
+    shapes.remove(index);
+    drawShapes();
   }
-  drawShapes();
 }
 
 // ---------------------------------------------------
