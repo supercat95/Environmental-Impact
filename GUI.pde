@@ -1,5 +1,7 @@
 import peasy.*;
 
+PeasyCam camera;
+
 Slider[] sliders = new Slider[6];
 float xIncrement = 0;
 float yIncrement;
@@ -18,26 +20,40 @@ float score;
 ArrayList<Shape> shapes;
 int typesOfShapes = 1;
 int numberOfShapes;
+
 PShape cowShape;
+PShape treeShape;
+
 PImage cowFur;
 
 void setup() {
   //fullScreen(P3D);
   size(640, 400, P3D);
+  
+  initializePeasyCam();
+  camera.setYawRotationMode();
+  
   radius = height/2;
+  
   initializeOverloadedSliders();
   initializePlanet();
-  initializeShapes();
   initializeObjectsAndImages();
+  initializeShapes();
+  
   drawShapes();
 }
 
 void draw() {
   background(#060115); // dark blue/purple
   //rotatePlanet();
-  drawSliders();
-  drawLabels();
-  drawSliderPieces();
+  camera.beginHUD();
+    drawSliders();
+    drawLabels();
+    drawSliderPieces();
+  camera.endHUD();
+  
+  checkIfScoreHasChanged();
+  println(sliders[0].calculateImpactScore(), shapes.size());
   
   fill(255,255,255);
   translate(0,height-40,0);
@@ -50,6 +66,12 @@ void draw() {
 }
 
 // ==================================================
+void initializePeasyCam() {
+  camera = new PeasyCam(this, width/2, height/2, 0, (height/2.0) / tan(PI*60.0 / 360.0)); // distance value is the default Processing camera value
+  camera.setMinimumDistance(0);
+  camera.setMaximumDistance(2500);
+}
+
 void initializeOverloadedSliders() { 
   for (int i = 0; i < sliders.length; i++) {
     xIncrement = width/12 + xIncrement;
@@ -65,16 +87,18 @@ void initializePlanet() {
   planetSphere.setTexture(planetTexture);
 }
 
-void initializeShapes() {
-  shapes = new ArrayList<Shape>();
-  for (int i = 0; i < sliders[0].totalScore * 10; i++) {
-    shapes.add(new Shape(radius));
-  }
-}
-
 void initializeObjectsAndImages() {
   cowShape = loadShape("cowShape.obj");  // file from https://free3d.com/3d-model/cow-v4--997323.html
+  treeShape = loadShape("treeShape.obj"); // file from https://free3d.com/3d-model/low-poly-tree-73217.html
+  
   cowFur = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
+}
+
+void initializeShapes() {
+  shapes = new ArrayList<Shape>();
+  for (int i = 0; i < sliders[0].totalScore * 60; i++) {
+    shapes.add(new Shape(radius));
+  }
 }
 
 // ---------------------------------------------------
@@ -144,17 +168,34 @@ float returnScore() {
   return score = lerp(sliders[0].yPosition/2 + (sliders[0].yPosition/2 - sliders[0].sliderHeight/2), sliders[0].yPosition + sliders[0].sliderHeight/2, pmouseY/100);
 }
 
-int howManyShapesToCreate() {
-  if (shapes.size() ==  0) { return numberOfShapes = typesOfShapes * 10; }
-  return numberOfShapes = int(ceil(sliders[0].impactScore * 10));
+// ---------------------------------------------------
+void checkIfScoreHasChanged() {
+  for (int i = 0; i < sliders.length; i++) {
+    if (sliders[i].checkIfHovering() && mousePressed) {
+      if (sliders[0].impactScore > 0.0) {
+        removeShapes();
+      } else {
+        addShapes();
+      }
+    }
+  }
 }
 
- void addShapes() {
-  shapes.add(new Shape(radius));    
+int howManyShapesNeeded() {
+  if (shapes.size() ==  0) { return numberOfShapes = typesOfShapes * 10; }
+  return numberOfShapes = int(ceil(sliders[0].calculateImpactScore()));
+}
+
+void addShapes() {
+  if (shapes.size() < howManyShapesNeeded()) {
+    shapes.add(new Shape(radius));    
+   }
 }
 
 void removeShapes() {
-  for (int i = shapes.size() - 1; i >= 0; i--) {
-    shapes.remove(i);
+  if (shapes.size() > howManyShapesNeeded()) {
+    for (int i = shapes.size() - 1; i >= 0; i--) {
+      shapes.remove(i);
+    }
   }
 }
