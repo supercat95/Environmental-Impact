@@ -26,9 +26,6 @@ class Shape {
   }
   
   Shape(float planetRadius) {
-    set_xPosition();
-    set_yPosition();
-    set_zPosition();
     xPosition = get_xPosition();
     yPosition = get_yPosition();
     zPosition = get_zPosition();
@@ -43,28 +40,16 @@ class Shape {
   
   // ==================================================
   // math equations from https://stackoverflow.com/questions/969798/plotting-a-point-on-the-edge-of-a-sphere
-  void set_xPosition() {
-    xPosition = radius * cos(random(-2*PI, PI)) * sin(random(-2*PI, PI));
-  }
-  
   float get_xPosition() {
-    return xPosition;
-  }
-  
-  void set_yPosition() {
-    yPosition = radius * sin(random(-2*PI, PI)) * sin(random(-2*PI, PI));
+    return xPosition = radius * cos(random(-2*PI, PI)) * sin(random(-2*PI, PI));
   }
   
   float get_yPosition() {
-    return yPosition;
-  }
-  
-  void set_zPosition() {
-    zPosition = radius * cos(random(-2*PI, PI));
+    return yPosition = radius * sin(random(-2*PI, PI)) * sin(random(-2*PI, PI));
   }
   
   float get_zPosition() {
-    return zPosition;
+    return zPosition = radius * cos(random(-2*PI, PI));
   }
   
   // ---------------------------------------------------
@@ -78,13 +63,13 @@ class Shape {
     
     pushMatrix();
       translate(get_xPosition(), get_yPosition(), get_zPosition());
-      //translate(0,0,0);
-      rotateX(xRotation);
-      rotateY(yRotation);
+      rotateX(xRotation + get_xPosition());
+      rotateY(yRotation + get_yPosition());
       scale(scale);
         shape(shape, 0, 0);
-        shape.setFill(filling);
-        if (texture != NULL) { 
+        if (texture == NULL) {
+          shape.setFill(filling);
+        } else { 
           shape.setTexture(texture); 
         }
     popMatrix();
