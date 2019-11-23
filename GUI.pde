@@ -173,9 +173,12 @@ void drawLabels() {
 }
 
 void drawShapes() {
-  for (Shape shapes : shapes) {
-    shapes.drawShape(cowShape);
-  }
+  pushMatrix();
+    translate(width/2, height);
+      for (Shape shapes : shapes) {
+        shapes.drawCow();
+      }
+  popMatrix();
 }
   
 // ---------------------------------------------------
