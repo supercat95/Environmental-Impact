@@ -82,6 +82,7 @@ void initializeOverloadedSliders() {
 
 void initializePlanet() {
   noStroke();
+  sphereDetail(int(radius));
   planetSphere = createShape(SPHERE, radius);
   planetTexture = loadImage("planetTexture.png");
   planetSphere.setTexture(planetTexture);
