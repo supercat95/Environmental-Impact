@@ -14,9 +14,7 @@ class Shape {
   int filling;
   
   float scale;
-  
-  PVector vector;
-  
+
   Shape(float planetRadius) {
     radius = planetRadius;
     
@@ -25,26 +23,26 @@ class Shape {
     case 0: 
       shape = cowShape; 
       filling = (color(255, 255, 255)); 
-      texture = NULL;//cowTexture; 
+      texture = NULL; //cowTexture; 
       this.scale = 3; //3
-      xRotation = PI;
-      yRotation = PI;
+      xRotation = HALF_PI;
+      //yRotation = PI;
       break;
     case 1:
       shape = treeShape; 
       filling = (color(0, 255, 0)); 
       texture = NULL; 
       this.scale = 7; //7
-      xRotation = PI;
-      yRotation = 0;
+      xRotation = HALF_PI;
+      //yRotation = 0;
       break;
     case 2:
       shape = turtleShape; 
       filling = (color(#84890B)); 
       texture = NULL;//turtleTexture; 
       this.scale = .3; //.3
-      xRotation = PI/2;
-      yRotation = 0;
+      //xRotation = PI/2;
+      //yRotation = 0;
       break;
     }
     
@@ -53,32 +51,31 @@ class Shape {
     } else { 
       shape.setTexture(texture);
     }
-
-    yAngle = (random(TWO_PI));
-    zAngle = (random(PI));
-    this.xPosition = (radius*sin((zAngle))*cos((yAngle)));
-    this.yPosition = (radius*sin((zAngle))*sin((yAngle)));
-    this.zPosition = (radius*cos((zAngle)));
     
-    vector = new PVector(0,0);
-    PVector center = new PVector(width/2, height/2);
-    vector.sub(center);
-    vector.normalize();
-    vector.mult(radius);
+    yAngle = random(TWO_PI); 
+    zAngle = random(PI);
+    xPosition = radius * sin(zAngle) * cos(yAngle);
+    yPosition = radius * sin(zAngle) * sin(yAngle);
+    zPosition = radius * cos(zAngle);
   }
   
   // ==================================================
   void drawShape() {
     pushMatrix();
       translate(this.xPosition, this.yPosition, this.zPosition);
+      
+      PVector vector = new PVector(xPosition-0, yPosition-0, zPosition-0);
+      float rho = sqrt(pow(vector.x, 2)+pow(vector.y, 2)+pow(vector.z, 2));
+      float phi = acos(vector.z / rho);
+      float the = atan2(vector.y, vector.x);
+      vector.mult(0.5);
+      
+      rotateZ(the);
+      rotateY(phi);
+      // shape-specific rotation
       rotateX(xRotation);
-      rotateY(yRotation);
-      //rotateX(cos(this.vector.heading()));
-      //stroke(255,0,0);
-      //line(0,0,vector.x*2, vector.y*2);
-      //rotateY(sin(this.vector.heading()));
-      //rotateZ(atan(this.vector.heading()));
-      //translate(radius*sin(vector.y)*cos(vector.x), radius*sin(vector.y)*sin(vector.x), radius*cos(vector.y));
+      if (shape == cowShape || shape == treeShape) { translate(0, 15, 0); }
+      
       scale(this.scale);
         shape(this.shape);
         if (texture == NULL) {

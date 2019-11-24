@@ -43,10 +43,6 @@ void setup() {
   initializePlanet();
   initializeObjectsAndImages();
   initializeShapes();
-  
-  //for (index = 0; index < shapes.size() -1; index++) {
-  //  drawShapes();
-  //}
 }
 
 void draw() {
@@ -66,10 +62,10 @@ void draw() {
 
 // ==================================================
 void initializePeasyCam() {
-  //camera = new PeasyCam(this, width/2.0, height/2.0, 0, (height/2.0) / tan(PI*60.0 / 360.0));
-  camera = new PeasyCam(this, 1500);
-  camera.setMinimumDistance(0);
-  camera.setMaximumDistance(450); // 350
+  camera = new PeasyCam(this, 0, 0, 0, (height/2.0) / tan(PI*60.0 / 360.0));
+  camera.setYawRotationMode();
+  camera.setMinimumDistance(250);
+  camera.setMaximumDistance(450);
 }
 
 void initializeOverloadedSliders() { 
@@ -107,9 +103,9 @@ void initializeShapes() {
 // ---------------------------------------------------
 void rotatePlanetAndShapes() {
   pushMatrix();
-    //translate(0, height/2, 0); // messes up PeasyCam
-      //rotateZ(zRotation);
-      //rotateY(yRotation);
+    translate(0, height/2, 0);
+    rotateZ(zRotation);  
+    rotateY(yRotation);
         planetSphere.scale(1);
           shape(planetSphere);
           drawShapes();
@@ -119,7 +115,7 @@ void rotatePlanetAndShapes() {
           //}
   popMatrix();
   
-  yRotation -= 0.01;
+  if (mousePressed == false || mousePressed && pmouseY < height/3) { yRotation -= 0.01; }
 }
 
 // ---------------------------------------------------
@@ -197,9 +193,6 @@ void checkIfScoreHasChanged() {
       addOrRemoveShapes();
     }
   }
-  //if (mousePressed == false) {
-  //  drawShapes();
-  //}
 }
 
 int howManyShapesNeeded() {
@@ -211,7 +204,7 @@ int howManyShapesNeeded() {
 
 void addOrRemoveShapes() {
   for (index = shapes.size(); index < howManyShapesNeeded(); index++) {
-    shapes.add(new Shape(radius));  
+    shapes.add(new Shape(radius)); 
     drawShapes();
    }
 
