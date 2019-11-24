@@ -173,8 +173,6 @@ void drawShapes() {
   
 // ---------------------------------------------------
 float returnScore() {
-  //score = pmouseY - (sliders[0].yPosition/2 - sliders[0].sliderHeight/2);
-  
   if (sliders[0].checkIfHovering() && mousePressed) {
     sliders[0].meatScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
   }
@@ -194,8 +192,6 @@ float returnScore() {
     sliders[0].recyclingScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
   }
 
-  //return score = map(score, 40.0, 106.0, 0, 1);
-  //return score = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
   return score = map((sliders[0].recyclingScore + sliders[0].upcyclingScore + sliders[0].zerowasteScore - sliders[0].disposablesScore - sliders[0].dairyScore - sliders[0].meatScore) / 6, -0.5, 0.5, 0.0, 1.0);
 }
 
@@ -209,10 +205,11 @@ void checkIfScoreHasChanged() {
 }
 
 int howManyShapesNeeded() {
-  if (shapes.size() ==  0 && sliders[0].calculateImpactScore() == 0.499999994) { return numberOfShapes = 30; }
-  if (sliders[0].calculateImpactScore() == 0) { return numberOfShapes = 60; }
-  if (sliders[0].calculateImpactScore() == 1) { return numberOfShapes = 0; }
-  return numberOfShapes = int(ceil(sliders[0].calculateImpactScore() * 60));
+  if (shapes.size() ==  0 && returnScore() == 0.499999994) { return numberOfShapes = 30; }
+  if (returnScore() == 0) { return numberOfShapes = 60; }
+  if (returnScore() == 1) { return numberOfShapes = 0; }
+  
+  return numberOfShapes = int(map(returnScore(), 0, 1, 60, 0));
 }
 
 void addOrRemoveShapes() {
