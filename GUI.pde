@@ -37,7 +37,6 @@ void setup() {
   size(640, 400, P3D);
   
   initializePeasyCam();
-  camera.setYawRotationMode();
   
   radius = height/2;
   
@@ -46,13 +45,13 @@ void setup() {
   initializeObjectsAndImages();
   initializeShapes();
   
-  for (index = 0; index < shapes.size() -1; index++) {
-    drawShapes();
-  }
+  //for (index = 0; index < shapes.size() -1; index++) {
+  //  drawShapes();
+  //}
 }
 
 void draw() {
-  //background(#060115); // dark blue/purple
+  background(#060115); // dark blue/purple
   rotatePlanetAndShapes();
   camera.beginHUD();
     drawSliders();
@@ -64,22 +63,14 @@ void draw() {
   
   peasyCamOrNot();
   println(sliders[0].calculateImpactScore(), howManyShapesNeeded(), shapes.size());
-  
-  fill(255,255,255);
-  translate(0,height-40,0);
-  rect(0,0, 40,40);
-  fill(0,0,0);
-  textSize(15);
-  text(pmouseX, 15, 10);
-  text(pmouseY, 15, 30);
-  
 }
 
 // ==================================================
 void initializePeasyCam() {
-  camera = new PeasyCam(this, width/2, height/2, 0, (height/2.0) / tan(PI*60.0 / 360.0)); // distance value is the default Processing camera value
+  //camera = new PeasyCam(this, width/2.0, height/2.0, 0, (height/2.0) / tan(PI*60.0 / 360.0));
+  camera = new PeasyCam(this, 1500);
   camera.setMinimumDistance(0);
-  camera.setMaximumDistance(2500);
+  camera.setMaximumDistance(450); // 350
 }
 
 void initializeOverloadedSliders() { 
@@ -103,9 +94,8 @@ void initializeObjectsAndImages() {
   turtleShape = loadShape("turtleShape.obj"); // file from https://free3d.com/3d-model/-sea-turtle-v1--427786.html
   
   cowTexture = loadImage("cowFur.jpg"); // image from https://milkgenomics.org/wp-content/uploads/2013/08/bigstock-dairy-cow-fur-skin-backgroun-40931641.jpg
-  NULL = loadImage("NULL.png"); // image is an unused placeholder to allow for setFill()
-  turtleTexture = loadImage("turtleTexture.jpg"); // image from https://s-media-cache-ak0.pinimg.com/736x/77/23/86/772386b662e4ca88794dbb9463c57ea9.jpg
-  
+  NULL = loadImage("NULL.jpg"); // image is an unused placeholder to allow for setFill()
+  turtleTexture = loadImage("turtleTexture.jpg"); // image from https://s-media-cache-ak0.pinimg.com/736x/77/23/86/772386b662e4ca88794dbb9463c57ea9.jpg 
 }
 
 void initializeShapes() {
@@ -118,14 +108,16 @@ void initializeShapes() {
 // ---------------------------------------------------
 void rotatePlanetAndShapes() {
   pushMatrix();
-    translate(width/2, height, 0); 
-      rotateZ(zRotation);
-        rotateY(yRotation); 
+    //translate(0, height/2, 0); // messes up PeasyCam
+      //rotateZ(zRotation);
+      //rotateY(yRotation);
+        planetSphere.scale(1);
           shape(planetSphere);
-          if (mousePressed == false) {
-            translate(-width/2, -height, 0);
-            checkIfScoreHasChanged();
-          }
+          drawShapes();
+          //if (mousePressed == false) {
+          //  translate(-width/2, -height, 0);
+          //  checkIfScoreHasChanged();
+          //}
   popMatrix();
   
   yRotation -= 0.01;
@@ -186,21 +178,12 @@ void drawLabels() {
 }
 
 void drawShapes() {
-  pushMatrix();
-    translate(width/2, height, 0);  
-      Shape shape = shapes.get(index);
-      int option = int(random(shapeOptions.length));
-      switch (option) {
-        case 0:
-          shape.drawShape(PI, PI, cowShape, color(0,0,0), cowTexture, 3);
-          break;
-        case 1:
-          shape.drawShape(PI, 0, treeShape, color(0,255,0), NULL, 7);
-          break;
-        case 2:
-          shape.drawShape(PI/2, 0, turtleShape, color(0,0,0), turtleTexture, 0.3);
-      }
-  popMatrix();
+  for (int i = 0; i < shapes.size(); i ++) {
+      pushMatrix();
+        Shape s = shapes.get(i);
+        s.drawShape();
+      popMatrix();
+    }
 }
   
 // ---------------------------------------------------
@@ -215,9 +198,9 @@ void checkIfScoreHasChanged() {
       addOrRemoveShapes();
     }
   }
-  if (mousePressed == false) {
-    drawShapes();
-  }
+  //if (mousePressed == false) {
+  //  drawShapes();
+  //}
 }
 
 int howManyShapesNeeded() {

@@ -13,113 +13,60 @@ class Shape {
   PImage texture;
   int filling;
   
-  float rotateX;
-  float rotateY;
   float scale;
   
-  PVector vector;
-  float xTheta;
-  float yTheta;
-  float zTheta;
-  
-  Shape() {
-    xPosition = 0;
-    yPosition = 0;
-    zPosition = 0;
-    xRotation = 0;
-    yRotation = 0;
-    zRotation = 0;
-    radius = 0;
-    yAngle = 0.0;
-    zAngle = 0.0;
-  }
-  
   Shape(float planetRadius) {
-    xPosition = get_xPosition();
-    yPosition = get_yPosition();
-    zPosition = get_zPosition();
-    xRotation = 0.0;
-    yRotation = 0.0;
-    zRotation = 0.0;
     radius = planetRadius;
-    yAngle = 0.0;
-    zAngle = 0.0;
-    rotateX = 0.0;
-    rotateY = 0.0;
-    scale = 1;
+    int option = int(random(shapeOptions.length));
+    switch(option) {
+    case 0: 
+      shape = cowShape; 
+      filling = (color(255, 255, 255)); 
+      texture = NULL;//cowTexture; 
+      this.scale = 3; //3
+      xRotation = PI;
+      yRotation = PI;
+      break;
+    case 1:
+      shape = treeShape; 
+      filling = (color(0, 255, 0)); 
+      texture = NULL; 
+      this.scale = 7; //7
+      xRotation = PI;
+      yRotation = 1;
+      break;
+    case 2:
+      shape = turtleShape; 
+      filling = (color(#84890B)); 
+      texture = NULL;//turtleTexture; 
+      this.scale = .3; //.3
+      xRotation = PI/2;
+      yRotation = 1;
+      break;
+    }
+    if (texture == NULL) {
+      shape.setFill(filling);
+    } else { 
+      shape.setTexture(texture);
+    }
+    yAngle = (random(TWO_PI));
+    zAngle = (random(PI));
+    xPosition = (radius*sin((zAngle))*cos((yAngle)));
+    yPosition = (radius*sin((zAngle))*sin((yAngle)));
+    zPosition = (radius*cos((zAngle)));
   }
   
   // ==================================================
-  void randomizeAngles() {
-    yAngle = random(0, 2*PI);
-    zAngle = random(0, 2*PI);
-  }
-  
-  float get_yAngle() {
-    return yAngle;
-  }
-  
-  float get_zAngle() {
-    return zAngle;
-  }
-  
-  // math equations from https://stackoverflow.com/questions/969798/plotting-a-point-on-the-edge-of-a-sphere
-  float get_xPosition() {
-    randomizeAngles();
-    return xPosition = radius * cos(get_zAngle()) * sin(get_yAngle());
-  }
-  
-  float get_yPosition() {
-    randomizeAngles();
-    return yPosition = radius * sin(get_zAngle()) * sin(get_yAngle());
-  }
-  
-  float get_zPosition() {
-    randomizeAngles();
-    return zPosition = radius * cos(get_yAngle());
-  }
-  
-  void performVectorMath() {
-    float rx = get_xPosition() / sqrt(sq(get_xPosition()) + sq(get_xPosition()) + sq(get_xPosition()));
-    float ry = get_yPosition() / sqrt(sq(get_xPosition()) + sq(get_xPosition()) + sq(get_xPosition()));
-    float rz = get_yPosition() / sqrt(sq(get_xPosition()) + sq(get_xPosition()) + sq(get_xPosition()));
-    xTheta = asin(rx);
-    yTheta = asin(ry);
-    zTheta = asin(rz);
-    //vector = new PVector(this.get_xPosition(), this.get_yPosition(), this.get_zPosition());
-    //vector.mult(radius);
-    //return vector.heading();
-  }
-  
-  float get_xTheta() {
-    return xTheta;
-  }
-  
-  float get_yTheta() {
-    return yTheta;
-  }
-  
-  float get_zTheta() {
-    return zTheta;
-  }
-  
-  // ---------------------------------------------------
-  void drawShape(float xRot, float yRot, PShape obj, int fill, PImage image, float mag) {
-    xRotation = xRot;
-    yRotation = yRot;
-    shape = obj;
-    texture = image;
-    filling = fill;
-    scale = mag;
-    
+  void drawShape() {
     pushMatrix();
-      translate(get_xPosition(), get_yPosition(), get_zPosition());
-      performVectorMath();
-      rotateX(get_xTheta() * xRotation);
-      rotateY(get_yTheta() * yRotation);
-      rotateZ(get_zTheta() * zRotation);
-      scale(scale);
-        shape(shape, 0, 0);
+      translate(xPosition, yPosition, zPosition);
+      rotateX(xRotation * tan(xPosition/zPosition));
+      //rotateY(yRotation * sin(yPosition * xPosition));
+      //rotateX((sin(zAngle) * cos(yAngle)));
+      //rotateY((sin(zAngle) * sin(yAngle)));
+      rotateZ(cos(zAngle));
+      scale(this.scale);
+        shape(this.shape);
         if (texture == NULL) {
           shape.setFill(filling);
         } else { 
