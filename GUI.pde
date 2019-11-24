@@ -54,17 +54,21 @@ void draw() {
     drawLabels();
     drawSliderPieces();
     
-    resetButton();
+    resetCameraButton();
+    resetSlidersButton();
     
-    fill(255,255,255);
-    translate(0,height-40,0);
-    rect(0,0, 40,40);
-    fill(0,0,0);
-    textSize(15);
-    text(pmouseX, 15, 10);
-    text(pmouseY, 15, 30);
+    pushMatrix();
+    //fill(255,255,255);
+    //translate(0,height-40,0);
+    //rect(0,0, 40,40);
+    //fill(0,0,0);
+    //textSize(15);
+    //text(pmouseX, 15, 10);
+    //text(pmouseY, 15, 30);
+    popMatrix();
   camera.endHUD();
   
+  checkIfScoreHasChanged();
   peasyCamOrNot();
   println(returnScore(), howManyShapesNeeded(), shapes.size());
 }
@@ -118,10 +122,6 @@ void rotatePlanetAndShapes() {
         planetSphere.scale(1);
           shape(planetSphere);
           drawShapes();
-          //if (mousePressed == false) {
-          //  translate(-width/2, -height, 0);
-          //  checkIfScoreHasChanged();
-          //}
   popMatrix();
   
   if (mousePressed == false || mousePressed && pmouseY < height/3) { yRotation -= 0.01; }
@@ -225,19 +225,38 @@ void addOrRemoveShapes() {
 }
 
 // ---------------------------------------------------
-void resetButton() {
-  fill(255,0,0);
+void resetCameraButton() {
   pushMatrix();
-  translate(width*.92, height - (width*.08));
-  rect(0, 0, width*.08, width*.08, 7);
-  fill(255,255,255);
-  textAlign(CENTER,CENTER);
-  text("RESET CAMERA", 0, 0, width*.08, width*.08);
+    translate(width*.92, height - (width*.08));
+      fill(#FFE600);
+      rect(0, 0, width*.08, width*.08, 7);
+      
+      fill(0);
+      textAlign(CENTER,CENTER);
+      textSize(width/60);
+      text("RESET CAMERA", 0, 0, width*.08, width*.08);
+  popMatrix();
+}
+
+void resetSlidersButton() {
+  pushMatrix();
+    translate(0, height - (width*.08));
+      fill(#FFE600);
+      rect(0, 0, width*.08, width*.08, 7);
+      
+      fill(0);
+      textAlign(CENTER,CENTER);
+      textSize(width/60);
+      text("RESET SLIDERS", 0, 0, width*.08, width*.08);
   popMatrix();
 }
 
 void mousePressed() {
   if (pmouseX > width*.92 && pmouseY > height-(width*.08)) {
     camera.reset();
+  }
+  
+  if (pmouseX < width*.08 && pmouseY > height-(width*.08)) {
+    // reset sliders
   }
 }
