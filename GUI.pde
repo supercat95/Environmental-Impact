@@ -32,9 +32,8 @@ PImage[] textureOptions = {cowTexture, NULL, turtleTexture};
 int index;
 
 void setup() {
-  //fullScreen(P3D);
-  size(640, 400, P3D);
-  //size(1280,800,P3D);
+  fullScreen(P3D);
+  //size(640, 400, P3D);
   
   initializePeasyCam();
   
@@ -48,24 +47,16 @@ void setup() {
 
 void draw() {
   background(#060115); // dark blue/purple
+  
   rotatePlanetAndShapes();
+  
   camera.beginHUD();
     drawSliders();
     drawLabels();
     drawSliderPieces();
     
     resetCameraButton();
-    resetSlidersButton();
-    
-    pushMatrix();
-    //fill(255,255,255);
-    //translate(0,height-40,0);
-    //rect(0,0, 40,40);
-    //fill(0,0,0);
-    //textSize(15);
-    //text(pmouseX, 15, 10);
-    //text(pmouseY, 15, 30);
-    popMatrix();
+    resetSlidersButton();   
   camera.endHUD();
   
   checkIfScoreHasChanged();
@@ -117,8 +108,8 @@ void initializeShapes() {
 void rotatePlanetAndShapes() {
   pushMatrix();
     translate(0, height/2, 0);
-    //rotateZ(zRotation);  
-    //rotateY(yRotation);
+    rotateZ(zRotation);  
+    rotateY(yRotation);
         planetSphere.scale(1);
           shape(planetSphere);
           drawShapes();
@@ -205,7 +196,7 @@ void checkIfScoreHasChanged() {
 }
 
 int howManyShapesNeeded() {
-  if (shapes.size() ==  0 && returnScore() == 0.499999994) { return numberOfShapes = 30; }
+  if (returnScore() == 0.5) { return numberOfShapes = 30; }
   if (returnScore() == 0) { return numberOfShapes = 60; }
   if (returnScore() == 1) { return numberOfShapes = 0; }
   
@@ -215,12 +206,10 @@ int howManyShapesNeeded() {
 void addOrRemoveShapes() {
   for (index = shapes.size(); index < howManyShapesNeeded(); index++) {
     shapes.add(new Shape(radius)); 
-    drawShapes();
    }
 
   for (index = shapes.size()-1; index > howManyShapesNeeded(); index--) {
     shapes.remove(index);
-    drawShapes();
   }
 }
 
@@ -260,6 +249,7 @@ void mousePressed() {
     for (int i = 0; i < sliders.length; i++) {
       sliders[i].sliderPiece(sliders[0].yPosition);
       sliders[0].defaultScores();
+      addOrRemoveShapes();
     }
   }
 }

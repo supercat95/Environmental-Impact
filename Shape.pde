@@ -24,25 +24,21 @@ class Shape {
       shape = cowShape; 
       filling = (color(255, 255, 255)); 
       texture = NULL; //cowTexture; 
-      this.scale = 3; //3
+      this.scale = 3; 
       xRotation = HALF_PI;
-      //yRotation = PI;
       break;
     case 1:
       shape = treeShape; 
       filling = (color(0, 255, 0)); 
       texture = NULL; 
-      this.scale = 7; //7
+      this.scale = 7;
       xRotation = HALF_PI;
-      //yRotation = 0;
       break;
     case 2:
       shape = turtleShape; 
       filling = (color(#84890B)); 
-      texture = NULL;//turtleTexture; 
-      this.scale = .3; //.3
-      //xRotation = PI/2;
-      //yRotation = 0;
+      texture = NULL; //turtleTexture; 
+      this.scale = .3; 
       break;
     }
     
@@ -71,9 +67,8 @@ class Shape {
       vector.mult(0.5);
       
       rotateZ(the);
-      rotateY(phi);
-      // shape-specific rotation
-      rotateX(xRotation);
+      rotateY(phi);   
+      rotateX(xRotation); // shape-specific rotation
       if (shape == cowShape || shape == treeShape) { translate(0, 15, 0); }
       
       scale(this.scale);
