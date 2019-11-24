@@ -48,6 +48,17 @@ class Slider {
   }
   
   // ==================================================
+  void defaultScores() {
+    meatScore = 0.5;
+    dairyScore = 0.5;
+    disposablesScore = 0.5;
+    zerowasteScore = 0.5;
+    upcyclingScore = 0.5;
+    recyclingScore = 0.5;
+    totalScore = 0.5;
+    impactScore = 0;
+  }
+  
   void createSlider() {
     pushMatrix();
       translate(xPosition, yPosition, zPosition);

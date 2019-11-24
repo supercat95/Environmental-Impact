@@ -257,6 +257,9 @@ void mousePressed() {
   }
   
   if (pmouseX < width*.08 && pmouseY > height-(width*.08)) {
-    // reset sliders
+    for (int i = 0; i < sliders.length; i++) {
+      sliders[i].sliderPiece(sliders[0].yPosition);
+      sliders[0].defaultScores();
+    }
   }
 }
