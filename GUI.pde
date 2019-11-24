@@ -29,7 +29,6 @@ PImage NULL;
 PImage turtleTexture;
 PImage[] textureOptions = {cowTexture, NULL, turtleTexture};
 
-
 int index;
 
 void setup() {
