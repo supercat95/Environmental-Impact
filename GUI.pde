@@ -34,6 +34,7 @@ int index;
 void setup() {
   //fullScreen(P3D);
   size(640, 400, P3D);
+  //size(1280,800,P3D);
   
   initializePeasyCam();
   
@@ -54,10 +55,18 @@ void draw() {
     drawSliderPieces();
     
     resetButton();
+    
+    fill(255,255,255);
+    translate(0,height-40,0);
+    rect(0,0, 40,40);
+    fill(0,0,0);
+    textSize(15);
+    text(pmouseX, 15, 10);
+    text(pmouseY, 15, 30);
   camera.endHUD();
   
   peasyCamOrNot();
-  println(sliders[0].calculateImpactScore(), howManyShapesNeeded(), shapes.size());
+  println(returnScore(), howManyShapesNeeded(), shapes.size());
 }
 
 // ==================================================
@@ -104,8 +113,8 @@ void initializeShapes() {
 void rotatePlanetAndShapes() {
   pushMatrix();
     translate(0, height/2, 0);
-    rotateZ(zRotation);  
-    rotateY(yRotation);
+    //rotateZ(zRotation);  
+    //rotateY(yRotation);
         planetSphere.scale(1);
           shape(planetSphere);
           drawShapes();
@@ -141,25 +150,6 @@ void drawSliders() {
 void drawSliderPieces() {
   for (int i = 0; i < sliders.length; i++) {
     sliders[i].checkForSliding();
-    
-    if (sliders[0].checkIfHovering() && mousePressed) {
-      sliders[0].meatScore = map(returnScore(), 47,113, 1,0);
-    }
-    if (sliders[1].checkIfHovering() && mousePressed) {
-      sliders[0].dairyScore = map(returnScore(), 47,113, 0,1);
-    }
-    if (sliders[2].checkIfHovering() && mousePressed) {
-      sliders[0].disposablesScore = map(returnScore(), 47,113, 0,1);
-    }
-    if (sliders[3].checkIfHovering() && mousePressed) {
-      sliders[0].zerowasteScore = map(returnScore(), 47,113, 0,1);
-    }
-    if (sliders[4].checkIfHovering() && mousePressed) {
-      sliders[0].upcyclingScore = map(returnScore(), 47,113, 0,1);
-    }
-    if (sliders[5].checkIfHovering() && mousePressed) {
-      sliders[0].recyclingScore = map(returnScore(), 47,113, 0,1);
-    }
   }
 }
 
@@ -183,7 +173,30 @@ void drawShapes() {
   
 // ---------------------------------------------------
 float returnScore() {
-  return score = lerp(sliders[0].yPosition/2 + (sliders[0].yPosition/2 - sliders[0].sliderHeight/2), sliders[0].yPosition + sliders[0].sliderHeight/2, pmouseY/100);
+  //score = pmouseY - (sliders[0].yPosition/2 - sliders[0].sliderHeight/2);
+  
+  if (sliders[0].checkIfHovering() && mousePressed) {
+    sliders[0].meatScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
+  }
+  if (sliders[1].checkIfHovering() && mousePressed) {
+    sliders[0].dairyScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
+  }
+  if (sliders[2].checkIfHovering() && mousePressed) {
+    sliders[0].disposablesScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
+  }
+  if (sliders[3].checkIfHovering() && mousePressed) {
+    sliders[0].zerowasteScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
+  }
+  if (sliders[4].checkIfHovering() && mousePressed) {
+    sliders[0].upcyclingScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
+  }
+  if (sliders[5].checkIfHovering() && mousePressed) {
+    sliders[0].recyclingScore = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
+  }
+
+  //return score = map(score, 40.0, 106.0, 0, 1);
+  //return score = map(pmouseY, sliders[0].yPosition/2, sliders[0].yPosition/2 + sliders[0].sliderHeight, 0.0, 1.0);
+  return score = map((sliders[0].recyclingScore + sliders[0].upcyclingScore + sliders[0].zerowasteScore - sliders[0].disposablesScore - sliders[0].dairyScore - sliders[0].meatScore) / 6, -0.5, 0.5, 0.0, 1.0);
 }
 
 // ---------------------------------------------------
