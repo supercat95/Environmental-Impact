@@ -79,16 +79,17 @@ class Slider {
   void checkForSliding() {
     if (checkIfHovering() && mousePressed) {
       yPos = pmouseY;  
-    } 
-      sliderPiece(yPos);
+    }
+    
+    sliderPiece(yPos);
   }
  
   void sliderPiece(float y) {
     yPos = y;
+    fill(#FFF700); // yellow
     pushMatrix();
       translate(xPosition + width/12, yPos, zPosition);
-      fill(#FFF700); // yellow
-      box(pieceLength, pieceHeight, 22);
+        box(pieceLength, pieceHeight, 22);
     popMatrix();
   }
   

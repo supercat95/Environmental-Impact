@@ -35,9 +35,9 @@ void setup() {
   fullScreen(P3D);
   //size(640, 400, P3D);
   
-  initializePeasyCam();
+  //initializePeasyCam();
   
-  radius = height/2;
+  radius = width/3;
   
   initializeOverloadedSliders();
   initializePlanet();
@@ -50,26 +50,28 @@ void draw() {
   
   rotatePlanetAndShapes();
   
-  camera.beginHUD();
+  //camera.beginHUD();
     drawSliders();
     drawLabels();
     drawSliderPieces();
     
-    resetCameraButton();
+    //resetCameraButton();
     resetSlidersButton();   
-  camera.endHUD();
+    
+    printNumberOfInhabitants();
+  //camera.endHUD();
   
   checkIfScoreHasChanged();
-  peasyCamOrNot();
-  println(returnScore(), howManyShapesNeeded(), shapes.size());
+  //peasyCamOrNot();
 }
 
 // ==================================================
 void initializePeasyCam() {
   camera = new PeasyCam(this, 0, 0, 0, (height/2.0) / tan(PI*60.0 / 360.0));
   camera.setYawRotationMode();
-  camera.setMinimumDistance(250);
-  camera.setMaximumDistance(450);
+  camera.setMinimumDistance(displayWidth/4); //640
+  camera.setMaximumDistance(displayWidth/2.5); //1000
+  println(displayWidth, width);
 }
 
 void initializeOverloadedSliders() { 
@@ -108,7 +110,7 @@ void initializeShapes() {
 // ---------------------------------------------------
 void rotatePlanetAndShapes() {
   pushMatrix();
-    translate(0, height/2, 0);
+    translate(width/2, height, 0);
     rotateZ(zRotation);  
     rotateY(yRotation);
         planetSphere.scale(1);
@@ -116,7 +118,9 @@ void rotatePlanetAndShapes() {
           drawShapes();
   popMatrix();
   
-  if (mousePressed == false || mousePressed && pmouseY < height/3) { yRotation -= 0.01; }
+  //if (mousePressed == false || mousePressed && pmouseY < height/3) { 
+    yRotation -= 0.01; 
+  //}
 }
 
 // ---------------------------------------------------
@@ -209,9 +213,17 @@ void addOrRemoveShapes() {
     shapes.add(new Shape(radius)); 
    }
 
-  for (index = shapes.size()-1; index > howManyShapesNeeded(); index--) {
+  for (index = shapes.size() -1; index > howManyShapesNeeded(); index--) {
     shapes.remove(index);
   }
+}
+
+// ---------------------------------------------------
+void printNumberOfInhabitants() {
+  textMode(CENTER);
+  fill(#F700DF);
+  textSize(width/40);
+  text("NUMBER OF INHABITANTS: " + shapes.size(), width/2, sliders[0].yPosition/4);
 }
 
 // ---------------------------------------------------
@@ -225,6 +237,7 @@ void resetCameraButton() {
       textAlign(CENTER,CENTER);
       textSize(width/60);
       text("RESET CAMERA", 0, 0, width*.08, width*.08);
+      
   popMatrix();
 }
 
@@ -242,9 +255,9 @@ void resetSlidersButton() {
 }
 
 void mousePressed() {
-  if (pmouseX > width*.92 && pmouseY > height-(width*.08)) {
-    camera.reset();
-  }
+  //if (pmouseX > width*.92 && pmouseY > height-(width*.08)) {
+  //  camera.reset();
+  //}
   
   if (pmouseX < width*.08 && pmouseY > height-(width*.08)) {
     for (int i = 0; i < sliders.length; i++) {
